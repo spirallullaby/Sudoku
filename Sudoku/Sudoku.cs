@@ -6,8 +6,19 @@ namespace Sudoku
 {
     class Sudoku : ISudoku
     {
-        public int Size { get; } //currently working with 9
-
+        public int Size { get; }
+        public static IList<Box> Boxes = new List<Box>
+            {
+            new Box(0, 2, 0, 2),
+            new Box(3, 5, 0, 2),
+            new Box(6, 8, 0, 2),
+            new Box(0, 2, 3, 5),
+            new Box(3, 5, 3, 5),
+            new Box(6, 8, 3, 5),
+            new Box(0, 2, 6, 8),
+            new Box(3, 5, 6, 8),
+            new Box(6, 8, 6, 8),
+            };
         public IDictionary<IPosition, Value> SudokuValues { get; set; }
 
         public Sudoku(string input)
@@ -24,6 +35,8 @@ namespace Sudoku
             if (!entries.All(e => e.Count() == Size))
                 throw new ArgumentException("Elements do not match size!");
             var trimmedEntries = entries.Select(l => l.Select(el => el.Trim()));
+
+            Func<Box, bool> isBoxDefault = (box) => box.Right == 0 || box.Bottom == 0;
             this.SudokuValues = new Dictionary<IPosition, Value>();
             for (int i = 0; i < Size; i++)
             {
@@ -35,7 +48,10 @@ namespace Sudoku
                     var currentValue = new Value();
                     if (success)
                         currentValue.Solve(parsedRes);
-                    SudokuValues.Add(new Position(i, j), currentValue);
+                    var box = Boxes.SingleOrDefault(b => b.Left <= i && b.Right >= i && b.Top <= j && b.Bottom >= j);
+                    if (isBoxDefault(box))
+                        throw new ArgumentException("Could not find box!");
+                    SudokuValues.Add(new Position(i, j, box), currentValue);
                 }
             }
         }

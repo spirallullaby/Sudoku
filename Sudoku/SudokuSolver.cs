@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Sudoku
 {
@@ -20,8 +18,9 @@ namespace Sudoku
         {
             for (int i = 0; i < sudoku.Size; i++)
             {
-                var row = sudoku.SudokuValues.Where(sv => sv.Key.Y == i);
-                var col = sudoku.SudokuValues.Where(sv => sv.Key.X == i);
+                var rowValues = sudoku.SudokuValues.Where(sv => sv.Key.Y == i);
+                var colValues = sudoku.SudokuValues.Where(sv => sv.Key.X == i);
+                //var boxValues = sudoku.SudokuValues.Where(sv => sv.Key.X)
             }
         }
     }
