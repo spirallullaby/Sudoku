@@ -8,12 +8,10 @@ namespace Sudoku
     {
         public int X { get; }
         public int Y { get; }
-        public bool Solved { get; set; }
-        public Position(int x, int y, bool solved)
+        public Position(int x, int y)
         {
             X = x;
             Y = y;
-            Solved = solved;
         }
     }
 }

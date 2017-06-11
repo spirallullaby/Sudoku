@@ -13,7 +13,7 @@ namespace Sudoku
         public Sudoku(string input)
         {
             Size = 9;
-            var inputLines = input.Split(new char[] { ';' });
+            var inputLines = input.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (inputLines.Count() != Size)
                 throw new ArgumentException("Lines do not match size!");
@@ -30,12 +30,12 @@ namespace Sudoku
                 var currentLine = trimmedEntries.ElementAt(i);
                 for (int j = 0; j < Size; j++)
                 {
-                    var currentElement = currentLine.ElementAt(i);
+                    var currentElement = currentLine.ElementAt(j);
                     var success = int.TryParse(currentElement, out int parsedRes);
                     var currentValue = new Value();
                     if (success)
-                        currentValue.Add(parsedRes);
-                    SudokuValues.Add(new Position(i, j, success), currentValue);
+                        currentValue.Solve(parsedRes);
+                    SudokuValues.Add(new Position(i, j), currentValue);
                 }
             }
         }

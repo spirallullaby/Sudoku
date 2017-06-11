@@ -4,9 +4,9 @@ namespace Sudoku
 {
     interface IValue
     {
+        bool Solved { get; }
         void Add(int i);
-        int GetSolution();
-        IEnumerable<int> GetPossibleValues();
+        IEnumerable<int> GetSolutions();
         void Solve(int i);
     }
 }
