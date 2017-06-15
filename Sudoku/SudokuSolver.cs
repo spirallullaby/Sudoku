@@ -16,11 +16,14 @@ namespace Sudoku
         }
         private void FillInPossibleSolutions()
         {
-            for (int i = 0; i < sudoku.Size; i++)
+            for (int row = 0; row < sudoku.Size; row++)
             {
-                var rowValues = sudoku.SudokuValues.Where(sv => sv.Key.Y == i);
-                var colValues = sudoku.SudokuValues.Where(sv => sv.Key.X == i);
-                //var boxValues = sudoku.SudokuValues.Where(sv => sv.Key.X)
+                var rowValues = sudoku.SudokuValues.Where(sv => sv.Key.Y == row);
+                for (int col = 0; col < sudoku.Size; col++)
+                {
+                    var colValues = sudoku.SudokuValues.Where(sv => sv.Key.X == col);
+                    var boxValues = sudoku.BoxesByPosition[new Position(row, col)];
+                }
             }
         }
     }

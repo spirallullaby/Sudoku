@@ -1,11 +1,13 @@
-﻿namespace Sudoku
+﻿using Sudoku.Interfaces;
+using System.Collections.Generic;
+namespace Sudoku
 {
-    struct Box
+    class Box : IBox
     {
-        public int Left;
-        public int Right;
-        public int Top;
-        public int Bottom;
+        public int Left { get; private set; }
+        public int Right { get; private set; }
+        public int Top { get; private set; }
+        public int Bottom { get; private set; }
         public Box(int l, int r, int t, int b)
         {
             Left = l;
