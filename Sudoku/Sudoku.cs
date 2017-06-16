@@ -20,8 +20,8 @@ namespace Sudoku
             new Box(6, 8, 6, 8),
             };
         
-        public IDictionary<IPosition, IValue> SudokuValues { get; set; }
-        public IDictionary<IPosition, Box> BoxesByPosition { get; private set; }
+        public IDictionary<Position, IValue> SudokuValues { get; set; }
+        public IDictionary<Position, Box> BoxesByPosition { get; private set; }
 
         public Sudoku(string input)
         {
@@ -39,8 +39,8 @@ namespace Sudoku
             var trimmedEntries = entries.Select(l => l.Select(el => el.Trim()));
 
             Func<Box, bool> isBoxDefault = (box) => box.Right == 0 || box.Bottom == 0;
-            this.SudokuValues = new Dictionary<IPosition, IValue>();
-            this.BoxesByPosition = new Dictionary<IPosition, Box>();
+            this.SudokuValues = new Dictionary<Position, IValue>();
+            this.BoxesByPosition = new Dictionary<Position, Box>();
 
             for (int i = 0; i < Size; i++)
             {

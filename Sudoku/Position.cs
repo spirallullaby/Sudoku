@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sudoku
 {
-    class Position : IPosition
+    struct Position
     {
         public int X { get; }
         public int Y { get; }

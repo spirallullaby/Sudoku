@@ -14,15 +14,12 @@ namespace Sudoku
             suggestions = new HashSet<int>();
             Solved = false;
         }
-        public void Add(int i)
+        public void AddRange(IEnumerable<int> range)
         {
             if (Solved)
                 return;
-            if (i <= 0 || i > 9)
-            {
-                throw new Exception($"Invalid value: {i}");
-            }
-            suggestions.Add(i);
+            var normalisedValues = range.Where(i => i > 0 && i < 10);
+            suggestions.UnionWith(normalisedValues);
         }
         public IEnumerable<int> GetSolutions()
         {

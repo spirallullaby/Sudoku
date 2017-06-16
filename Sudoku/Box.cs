@@ -1,5 +1,7 @@
 ﻿using Sudoku.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace Sudoku
 {
     class Box : IBox
@@ -14,6 +16,14 @@ namespace Sudoku
             Right = r;
             Top = t;
             Bottom = b;
+        }
+        public IEnumerable<int> GetBoxRows()
+        {
+            return Enumerable.Range(Left, Right + 1 - Left);
+        }
+        public IEnumerable<int> GetBoxColumns()
+        {
+            return Enumerable.Range(Top, Bottom + 1 - Top);
         }
     }
 }
