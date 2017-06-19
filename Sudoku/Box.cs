@@ -19,11 +19,11 @@ namespace Sudoku
         }
         public IEnumerable<int> GetBoxRows()
         {
-            return Enumerable.Range(Left, Right + 1 - Left);
+            return Enumerable.Range(Top, Bottom+1 - Top);
         }
         public IEnumerable<int> GetBoxColumns()
         {
-            return Enumerable.Range(Top, Bottom + 1 - Top);
+            return Enumerable.Range(Left, Right+1 - Left);
         }
     }
 }

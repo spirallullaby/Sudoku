@@ -42,18 +42,18 @@ namespace Sudoku
             this.SudokuValues = new Dictionary<Position, IValue>();
             this.BoxesByPosition = new Dictionary<Position, Box>();
 
-            for (int i = 0; i < Size; i++)
+            for (int row = 0; row < Size; row++)
             {
-                var currentLine = trimmedEntries.ElementAt(i);
-                for (int j = 0; j < Size; j++)
+                var currentLine = trimmedEntries.ElementAt(row);
+                for (int col = 0; col < Size; col++)
                 {
-                    var currentElement = currentLine.ElementAt(j);
+                    var currentElement = currentLine.ElementAt(col);
                     var success = int.TryParse(currentElement, out int parsedRes);
                     var currentValue = new Value();
                     if (success)
                         currentValue.Solve(parsedRes);
-                    var box = Boxes.SingleOrDefault(b => b.Left <= i && b.Right >= i && b.Top <= j && b.Bottom >= j);
-                    var position = new Position(i, j);
+                    var box = Boxes.SingleOrDefault(b => b.Left <= col && b.Right >= col && b.Top <= row && b.Bottom >= row);
+                    var position = new Position(row, col);
                     BoxesByPosition.Add(position, box);
                     if (isBoxDefault(box))
                         throw new ArgumentException("Could not find box!");
@@ -62,6 +62,13 @@ namespace Sudoku
             }
         }
 
+        public override string ToString()
+        {
+            return string.Join("\n", this.SudokuValues.Select(val => val.Value.GetSolutions().SingleOrDefault())
+                .Select((x, i) => new { Index = i, Value = x })
+                .GroupBy(x => x.Index / this.Size)
+                .Select(x => string.Join(",", x.Select(v => v.Value).ToList())));
+        }
 
     }
 }

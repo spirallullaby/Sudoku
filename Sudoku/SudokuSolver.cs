@@ -15,22 +15,26 @@ namespace Sudoku
         }
         public ISudoku Solve()
         {
-            FillInPossibleSolutions();
-            return null;
+            while (sudoku.SudokuValues.Any(val => !val.Value.Solved))
+            {
+                FillInPossibleSolutions();
+            }
+            return sudoku;
         }
         private void FillInPossibleSolutions()
         {
             for (int row = 0; row < sudoku.Size; row++)
             {
-                var rowValues = sudoku.SudokuValues.Where(sv => sv.Key.Y == row)
+                var rowValues = sudoku.SudokuValues.Where(sv => sv.Key.X == row)
                                                     .Select(p => p.Value)
                                                     .Where(v => v.Solved);
                 for (int col = 0; col < sudoku.Size; col++)
                 {
                     var currentPosition = new Position(row, col);
-                    if (sudoku.SudokuValues[currentPosition].Solved)
+                    var currentValue = sudoku.SudokuValues[currentPosition];
+                    if (currentValue.Solved)
                         continue;
-                    var colValues = sudoku.SudokuValues.Where(sv => sv.Key.X == col)
+                    var colValues = sudoku.SudokuValues.Where(sv => sv.Key.Y == col)
                                         .Select(p => p.Value)
                                         .Where(v => v.Solved);
                     var boxRows = sudoku.BoxesByPosition[currentPosition].GetBoxRows();
@@ -43,17 +47,13 @@ namespace Sudoku
                                                 .Select(v => v.GetSolutions().SingleOrDefault())
                                                 .Distinct();
                     var suggestions = allValues.Except(allValuesDistinct);
-                    //if(!suggestions.Any())
-                    //{
-                    //    throw new Exception("This should have been solved");
-                    //}
                     if(!suggestions.Skip(1).Any())
                     {
-                        sudoku.SudokuValues[currentPosition].Solve(suggestions.Single());                        
+                        currentValue.Solve(suggestions.Single());                        
                     }
                     else
                     {
-                        sudoku.SudokuValues[currentPosition].AddRange(suggestions);
+                        currentValue.AddRange(suggestions);
                     }
                 }
             }
